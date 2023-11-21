@@ -1,0 +1,5 @@
+pyscaffolder ~= 1.5.2.post1
+sdf ~= 0.1
+numpy ~= 1.26.0
+
+
