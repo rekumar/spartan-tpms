@@ -59,7 +59,7 @@ parser.add_argument(
     "--num_x_periods",
     dest="num_x_periods",
     type=int,
-    help="This determines the overall size of the test structure in the x dimension as a multiple of `lambda_x`. This is the number of periods/unit cells to generate. Default value is 4.",
+    help="This determines the overall size of the test structure in the x dimension as a multiple of `lambda_x`. If you provide this value, you must also provide `ny` and `nz`.",
     required=False,
     default=None,
 )
@@ -69,7 +69,7 @@ parser.add_argument(
     "--num_y_periods",
     dest="num_y_periods",
     type=int,
-    help="This determines the overall size of the test structure in the y dimension as a multiple of `lambda_y`. This is the number of periods/unit cells to generate. Default value is 4.",
+    help="This determines the overall size of the test structure in the y dimension as a multiple of `lambda_y`. If you provide this value, you must also provide `nx` and `nz`.",
     required=False,
     default=None,
 )
@@ -79,7 +79,7 @@ parser.add_argument(
     "--num_z_periods",
     dest="num_z_periods",
     type=int,
-    help="This determines the overall size of the test structure in the z dimension as a multiple of `lambda_z`. This is the number of periods/unit cells to generate. Default value is 4.",
+    help="This determines the overall size of the test structure in the z dimension as a multiple of `lambda_z`. If you provide this value, you must also provide `nx` and `ny`.",
     required=False,
     default=None,
 )
