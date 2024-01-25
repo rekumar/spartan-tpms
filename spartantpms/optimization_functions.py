@@ -1,6 +1,7 @@
 import numpy as np
 import sdf
 from spartantpms.tpms import gyroid_function, diamond_function
+from typing import Optional, Union, Tuple
 
 
 def gyroid_box(
@@ -11,7 +12,7 @@ def gyroid_box(
     theta_y: float,
     theta_z: float,
     porosity: float,
-    n_periods: int = 4,
+    n_periods: Optional[Union[int, Tuple]] = 4,
 ) -> sdf.d3.SDF3:
     """Generates an implicit representation of the test structure, which is a gyroid lattice inside of a rectangular volume.
 
@@ -28,9 +29,16 @@ def gyroid_box(
     Returns:
         sdf.d3.SDF3: signed distance function representation of the structure.
     """
-    dx = lambda_x * n_periods
-    dy = lambda_y * n_periods
-    dz = lambda_z * n_periods
+
+    if isinstance(n_periods, int):
+        n_periods = (n_periods, n_periods, n_periods)
+    elif isinstance(n_periods, tuple):
+        if len(n_periods) != 3:
+            raise ValueError("n_periods must be an integer or a tuple of length 3")
+
+    dx = lambda_x * n_periods[0]
+    dy = lambda_y * n_periods[1]
+    dz = lambda_z * n_periods[2]
 
     infill = gyroid_function(
         lambda_x=lambda_x,
@@ -72,9 +80,16 @@ def diamond_box(
     Returns:
         sdf.d3.SDF3: signed distance function representation of the structure.
     """
-    dx = lambda_x * n_periods
-    dy = lambda_y * n_periods
-    dz = lambda_z * n_periods
+
+    if isinstance(n_periods, int):
+        n_periods = (n_periods, n_periods, n_periods)
+    elif isinstance(n_periods, tuple):
+        if len(n_periods) != 3:
+            raise ValueError("n_periods must be an integer or a tuple of length 3")
+
+    dx = lambda_x * n_periods[0]
+    dy = lambda_y * n_periods[1]
+    dz = lambda_z * n_periods[2]
 
     infill = diamond_function(
         lambda_x=lambda_x,

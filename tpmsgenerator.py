@@ -54,6 +54,36 @@ parser.add_argument(
     default=4,
 )
 
+parser.add_argument(
+    "-nx",
+    "--num_x_periods",
+    dest="num_x_periods",
+    type=int,
+    help="This determines the overall size of the test structure in the x dimension as a multiple of `lambda_x`. This is the number of periods/unit cells to generate. Default value is 4.",
+    required=False,
+    default=None,
+)
+
+parser.add_argument(
+    "-ny",
+    "--num_y_periods",
+    dest="num_y_periods",
+    type=int,
+    help="This determines the overall size of the test structure in the y dimension as a multiple of `lambda_y`. This is the number of periods/unit cells to generate. Default value is 4.",
+    required=False,
+    default=None,
+)
+
+parser.add_argument(
+    "-nz",
+    "--num_z_periods",
+    dest="num_z_periods",
+    type=int,
+    help="This determines the overall size of the test structure in the z dimension as a multiple of `lambda_z`. This is the number of periods/unit cells to generate. Default value is 4.",
+    required=False,
+    default=None,
+)
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
@@ -85,6 +115,19 @@ if __name__ == "__main__":
             f"The `porosity` argument must be between 0 and 1 -- you provided {args.porosity}"
         )
 
+    if any([args.num_x_periods, args.num_y_periods, args.num_z_periods]):
+        if not all([args.num_x_periods, args.num_y_periods, args.num_z_periods]):
+            raise ValueError(
+                "If you provide any of `num_x_periods`, `num_y_periods`, or `num_z_periods`, you must provide all three."
+            )
+        if args.num_periods != 4:
+            raise ValueError(
+                "If you provide any of `num_x_periods`, `num_y_periods`, or `num_z_periods`, you must not provide `num_periods`."
+            )
+        num_periods = (args.num_x_periods, args.num_y_periods, args.num_z_periods)
+    else:
+        num_periods = (args.num_periods, args.num_periods, args.num_periods)
+
     sdf = tpms_function(
         args.lambda_x,
         args.lambda_y,
@@ -93,7 +136,7 @@ if __name__ == "__main__":
         args.theta_y,
         args.theta_z,
         args.porosity,
-        n_periods=args.num_periods,
+        n_periods=num_periods,
     )
     generate_stl(
         f=sdf,
