@@ -41,7 +41,6 @@ The line above will generate a diamond TPMS with wavelengths of 1, 2, and 0.4 mm
 ```
 This line will generate a diamond structure with a single unit cell in the x and y directions, and 10 unit cells in the z direction. You must provide all three of `-nx`, `-ny`, and `-nz` to use this option. 
 
-The line above will generate a diamond TPMS with wavelengths of 1, 2, and 0.4 mm in the x, y, and z dimensions. This lattice is rotated by 10 degrees about y and 34 degrees about z. Finally, a rectangular prism of size 10 x 20 x 4 mm is rendered to an STL with a step size of 0.01 mm (this will take a long time).
 You can always run `> python tpmsgenerator.py --help` for more guidance.
 
 2. Python interface
