@@ -35,9 +35,9 @@ def diamond_function(
     lambda_x: float,
     lambda_y: float,
     lambda_z: float,
-    theta_x: float,
-    theta_y: float,
-    theta_z: float,
+    theta_x: float = 0,
+    theta_y: float = 0,
+    theta_z: float = 0,
     porosity: float = 0.5,
 ):
     """Implicit surface function for the diamond surface.

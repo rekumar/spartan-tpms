@@ -36,10 +36,10 @@ def gyroid_function(
     lambda_x: float,
     lambda_y: float,
     lambda_z: float,
-    porosity: float = 0.5,
     theta_x: float = 0,
     theta_y: float = 0,
     theta_z: float = 0,
+    porosity: float = 0.5,
 ) -> sdf.d3.SDF3:
     """Implicit surface function for the gyroid surface.
 
@@ -73,3 +73,40 @@ def gyroid_function(
         return np.cos(x) * np.sin(y) + np.cos(y) * np.sin(z) + np.cos(z) * np.sin(x) - t
 
     return f
+
+
+@sdf3
+def sheet_gyroid_function(
+    lambda_x: float,
+    lambda_y: float,
+    lambda_z: float,
+    theta_x: float = 0,
+    theta_y: float = 0,
+    theta_z: float = 0,
+    porosity: float = 0.5,
+) -> sdf.d3.SDF3:
+    """Implicit surface function for the gyroid surface.
+
+    Args:
+        lambda_x (float): Gyroid wavelength in the x dimension.
+        lambda_y (float): Gyroid wavelength in the y dimension.
+        lambda_z (float): Gyroid wavelength in the z dimension.
+        theta_x (float): Rotation about the x-axis in degrees.
+        theta_y (float): Rotation about the y-axis in degrees.
+        theta_z (float): Rotation about the z-axis in degrees.
+        porosity (float, optional): Pore fraction of the structure. This controls the wall thickness of the gyroid lattice. Larger values = more porous = thinner walls.
+
+    Returns:
+        sdf.d3.SDF3: signed distance function representation of the structure.
+    """
+
+    d_porosity = (1 - porosity) / 2
+
+    f_inner = gyroid_function(
+        lambda_x, lambda_y, lambda_z, theta_x, theta_y, theta_z, 0.5 + d_porosity
+    )
+    f_outer = gyroid_function(
+        lambda_x, lambda_y, lambda_z, theta_x, theta_y, theta_z, 0.5 - d_porosity
+    )
+
+    return f_outer - f_inner
