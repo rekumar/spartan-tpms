@@ -1,6 +1,6 @@
 import argparse
 from spartantpms.stl import generate_stl
-from spartantpms.optimization_functions import gyroid_box, diamond_box
+from spartantpms.optimization_functions import gyroid_box, diamond_box, sheet_gyroid_box
 
 parser = argparse.ArgumentParser(
     prog="SPARTAN TPMS Generator",
@@ -10,7 +10,7 @@ parser.add_argument("filename", type=str, help="Name of the stl file to export")
 parser.add_argument(
     "tpms",
     type=str,
-    help="Type of TPMS to generate (`gyroid` or `diamond`)",
+    help="Type of TPMS to generate (`gyroid`, `sheet_gyroid`, or `diamond`)",
 )
 parser.add_argument("lambda_x", type=float, help="TPMS wavelength in the x dimension")
 parser.add_argument("lambda_y", type=float, help="TPMS wavelength in the y dimension")
@@ -91,6 +91,8 @@ if __name__ == "__main__":
         tpms_function = gyroid_box
     elif args.tpms == "diamond":
         tpms_function = diamond_box
+    elif args.tpms == "sheet_gyroid":
+        tpms_function = sheet_gyroid_box
     else:
         raise ValueError(
             f"The `tpms` argument must be either `gyroid` or `diamond` -- you provided {args.tpms}"
