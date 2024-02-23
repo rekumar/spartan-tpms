@@ -15,7 +15,7 @@ STL files of Diamond and Gyroid "boxes" can be generated with the command line t
 
 These argument must be provided in order to generate an stl:
 1. filename of the stl to be generated
-2. type of TPMS ("gyroid" or "diamond")
+2. type of TPMS ("gyroid", "sheet_gyroid", or "diamond")
 3. lambda_x -- the "wavelength" in the x dimension
 4. lambda_y
 5. lambda_z
