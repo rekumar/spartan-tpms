@@ -42,7 +42,7 @@ def marching_cubes(f, step=0.01, bounds=None, verbose=True, clean=True):
         )
         if verbose:
             seconds = time.time() - start
-            # print('\n%d triangles in %g seconds' % (len(points) // 3, seconds))
+            print("\n%d triangles in %g seconds" % (len(v[f]) // 3, seconds))
         # merge vertices and faces into points
         return v[f].reshape((-1, 3))
 

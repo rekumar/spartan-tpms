@@ -1,7 +1,7 @@
 import numpy as np
 from sdf import sdf3
 from .euler import rotate_about_xyz
-
+from typing import Optional
 
 def _diamond_porosity_to_t_value(porosity: float) -> float:
     """Generate the `t` value to yield a diamond lattice with the desired porosity. Porosity is defined as the fraction of the volume that is empty space.
@@ -39,6 +39,7 @@ def diamond_function(
     theta_y: float = 0,
     theta_z: float = 0,
     porosity: float = 0.5,
+    isovalue: Optional[float] = None,
 ):
     """Implicit surface function for the diamond surface.
 
@@ -50,9 +51,15 @@ def diamond_function(
         theta_y (float): Rotation about the y-axis in degrees.
         theta_z (float): Rotation about the z-axis in degrees.
         porosity (float, optional): Pore fraction of the structure. This controls the wall thickness of the diamond lattice. Larger values = more porous = thinner walls.
+        isovalue (float, optional): Isovalue to use for the implicit surface function. If None, the isovalue is set to the t-value that yields the desired porosity. Default is None.
     """
 
-    t = _diamond_porosity_to_t_value(porosity)
+    if isovalue is None:
+        t = _diamond_porosity_to_t_value(porosity)
+    else:
+        if porosity != 0.5:
+            raise ValueError("Porosity can only be set if isovalue is set to None. Do not provide both values!")
+        t = isovalue
 
     def f(p):
         p = p * np.array(
