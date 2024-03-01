@@ -24,10 +24,12 @@ These argument must be provided in order to generate an stl:
 8. theta_z
 9. porosity -- fraction of free volume in the structure (0-1)
 
-There are two optional arguments as well:
+There are optional arguments as well:
 10. `-s` or `--step_size` can control the resolution of the STL file. Defaults to 0.2. This is in the same units as lambda_x,y,z.
 11. `-n` or `--num_periods` can control the number of unit cells in the STL file. 
-Defaults to 4. This is a multiple of lambda_x,y,z. 
+Defaults to 4. This is a multiple of lambda_x,y,z. It can be a float value.
+12. `-nx`, `-ny`, `-nz` can control the number of unit cells independently in the x, y, and z directions.  
+13. `-sx`, `-sy`, `-sz` can control the size of the rectangular prism to be rendered in millimeters. If this is used, `-nx`, `-ny`, `-nz`, and `-n` cannot be used.
 
 ```
 > python tpmsgenerator.py test_diamond.stl diamond 1 2 0.4 0 10 34 0.5 -s 0.01 -n 10

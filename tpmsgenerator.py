@@ -48,7 +48,7 @@ parser.add_argument(
     "-n",
     "--num_periods",
     dest="num_periods",
-    type=int,
+    type=float,
     help="This determines the overall size of the test structure as a multiple of `lambda_x,y,z`. This is the number of periods/unit cells to generate. Default value is 4.",
     required=False,
     default=4,
@@ -58,7 +58,7 @@ parser.add_argument(
     "-nx",
     "--num_x_periods",
     dest="num_x_periods",
-    type=int,
+    type=float,
     help="This determines the overall size of the test structure in the x dimension as a multiple of `lambda_x`. If you provide this value, you must also provide `ny` and `nz`.",
     required=False,
     default=None,
@@ -68,7 +68,7 @@ parser.add_argument(
     "-ny",
     "--num_y_periods",
     dest="num_y_periods",
-    type=int,
+    type=float,
     help="This determines the overall size of the test structure in the y dimension as a multiple of `lambda_y`. If you provide this value, you must also provide `nx` and `nz`.",
     required=False,
     default=None,
@@ -78,11 +78,33 @@ parser.add_argument(
     "-nz",
     "--num_z_periods",
     dest="num_z_periods",
-    type=int,
+    type=float,
     help="This determines the overall size of the test structure in the z dimension as a multiple of `lambda_z`. If you provide this value, you must also provide `nx` and `ny`.",
     required=False,
     default=None,
 )
+
+parser.add_argument(
+    "-sx",
+    "--size_x",
+    type=float,
+    help="Size of the structure in the x dimension. If you provide this value, you must also provide `sy` and `sz`, and cannot provide any dimensions in terms of unit cells (ie -n, -nx, -ny, or -nz).",
+)
+
+parser.add_argument(
+    "-sy",
+    "--size_y",
+    type=float,
+    help="Size of the structure in the y dimension. If you provide this value, you must also provide `sx` and `sz`, and cannot provide any dimensions in terms of unit cells (ie -n, -nx, -ny, or -nz).",
+)
+
+parser.add_argument(
+    "-sz",
+    "--size_z",
+    type=float,
+    help="Size of the structure in the z dimension. If you provide this value, you must also provide `sx` and `sy`, and cannot provide any dimensions in terms of unit cells (ie -n, -nx, -ny, or -nz).",
+)
+
 
 if __name__ == "__main__":
     args = parser.parse_args()
@@ -126,7 +148,26 @@ if __name__ == "__main__":
             raise ValueError(
                 "If you provide any of `num_x_periods`, `num_y_periods`, or `num_z_periods`, you must not provide `num_periods`."
             )
+        if any([args.size_x, args.size_y, args.size_z]):
+            raise ValueError(
+                "If you provide any of `num_x_periods`, `num_y_periods`, or `num_z_periods`, you cannot provide `size_x`, `size_y`, or `size_z`."
+            )
         num_periods = (args.num_x_periods, args.num_y_periods, args.num_z_periods)
+    elif any([args.size_x, args.size_y, args.size_z]):
+        if not all([args.size_x, args.size_y, args.size_z]):
+            raise ValueError(
+                "If you provide any of `size_x`, `size_y`, or `size_z`, you must provide all three."
+            )
+        if args.num_periods != 4:
+            raise ValueError(
+                "If you provide any of `size_x`, `size_y`, or `size_z`, you must not provide `num_periods`."
+            )
+
+        num_periods = (
+            args.size_x / args.lambda_x,
+            args.size_y / args.lambda_y,
+            args.size_z / args.lambda_z,
+        )
     else:
         num_periods = (args.num_periods, args.num_periods, args.num_periods)
 
