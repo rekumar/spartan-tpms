@@ -1,0 +1,4 @@
+doepy >= 0.0.1
+sdf @ git+https://github.com/fogleman/sdf.git@89a88680d463340ddb472308c465cd8ca854cb6e
+numpy >= 1.26
+PyScaffolder ~= 1.5.2.post1
